@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <div>{{ msg }}</div>
+    <input type="text" v-bind:value="msg" v-on:input="handdle($event)">
+    <input type="text" v-bind:value="msg" v-on:input="msg=$event.target.value">
+    <input type="text" v-model="msg">
+</div>
+<script src="js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            msg:'hello',
+        },
+        methods:{
+            handdle:function (event) {
+                this.msg = event.target.value;
+            }
+        }
+    })
+</script>
+</body>
+</html>

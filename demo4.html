@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <a v-bind:href="url">百度</a>
+    <a :href="url">跳转</a>
+    <button v-on:click="handdle">切换新浪</button>
+</div>
+<script src="js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            url:'http://www.baidu.com'
+        },
+        methods:{
+            handdle:function(){
+                this.url='http://sina.com.cn'
+            }
+        }
+    })
+</script>
+</body>
+</html>
