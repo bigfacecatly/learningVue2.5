@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div v-cloak>{{ msg }}</div>
+    <!--    简单计算-->
+    <div>{{ 1+2}}</div>
+    <!--    字符串拼接-->
+    <div>{{ msg + 'abc'+123}}</div>
+    <div v-text="msg "></div>
+    <div v-html="msg1"></div>
+    <div v-pre>{{msg}}</div>
+    <div v-once>{{ info }}</div>
+    <div>
+        <input type="text" v-model="msg">
+    </div>
+    <div v-text="num"></div>
+    <div>
+        <button v-on:click="num++">点击</button>
+        <button @click="num++">再点击</button>
+        <button v-on:click="handdle2">点2</button>
+    </div>
+
+    <div>
+        <button v-on:click="handdle1(123,456,$event)">点1</button>
+    </div>
+    <div v-on:click="handdle0">
+        <button v-on:click.stop="handdle3">点3333</button>
+    </div>
+    <div><a href="http://www.baidu.com" v-on:click.prevent="handdle4">百度</a></div>
+</div>
+<script src="js/vue.js"></script>
+<script>
+    /*
+    * Vue的基本使用步骤
+    * 1、需要提供标签用于填充数据
+    * 2、引入vue.js库文件
+    * 3、可以使用vue的语法做功能
+    * 4、把vue提供的数据填充到标签里面
+    * */
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'Hello Vue',
+            msg1:'<h1>HTML</h1>',
+            info:"nihao",
+            num:0,
+        },
+        methods:{
+            handdle1:function (p,p1,event) {
+                console.log(event.target.innerHTML);
+                this.num = p+' '+p1;
+            },
+            handdle2:function(evnet){
+                console.log(evnet.target.innerHTML);
+                this.num = parseInt(this.num)+1;
+                console.log(this.num)
+            },
+            handdle0:function(){
+                this.num++;
+            },
+            handdle3:function (event) {
+                // event.stopPropagation();
+            },
+            handdle4:function(event){
+                // event.preventDefault();
+            }
+
+        }
+    })
+
+
+</script>
+
+</body>
+</html>

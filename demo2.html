@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-on:keyup.65="handdle" v-model="info">
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            info:"",
+        },
+        methods:{
+            handdle:function(event){
+                console.log(event.keyCode);
+            }
+        }
+    })
+</script>
+</body>
+</html>
