@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form div {
+            height: 40px;
+            line-height: 40px;
+        }
+        form div span:first-child {
+            display: inline-block;
+            width:100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <form action="">
+            <div>
+                <span>姓名:</span>
+                <span><input type="text"></span>
+            </div>
+            <div>
+                <span>性别:</span>
+                <span>
+                    <input type="radio" id="male" name="sex">
+                    <label for="male">男</label>
+                    <input type="radio" id="female" name="sex">
+                    <label for="female">女</label>
+                </span>
+            </div>
+            <div>
+               <span>爱好:</span>
+                <input type="checkbox" id="ball">
+                <label for="ball">篮球</label>
+                <input type="checkbox" id="sing">
+                <label for="sing">唱歌</label>
+                <input type="checkbox" id="code">
+                <label for="code">写代码</label>
+            </div>
+            <div>
+                <span>职业:</span>
+                <select name="" id="">
+                    <option value="">请选择职业...</option>
+                    <option value="">教师</option>
+                    <option value="">软件工程师</option>
+                    <option value="">律师</option>
+                </select>
+            </div>
+            <div>
+                <span>个人简介:</span>
+                <textarea name="" id="a" cols="30" rows="10"></textarea>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

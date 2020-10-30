@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .tab ul {
+            overflow: hidden;
+            padding: 0;
+            margin:0;
+        }
+        .tab ul li {
+            box-sizing: border-box;
+            padding: 0;
+            float: left;
+            width: 100px;
+            height: 54px;
+            line-height: 45px;
+            list-style: none;
+            text-align:center;
+            border-top: 1px solid blue;
+            border-right:1px solid blue;
+            cursor:pointer;
+        }
+        .tab ul li:first-child {
+            border-left:1px solid blue;
+        }
+        .tab ul li.active {
+            background-color: orange;
+        }
+        .tab div {
+            width: 520px;
+            height: 280px;
+            display: none;
+            text-align: center;
+            font-size: 30px;
+            border:1px solid blue;
+            line-height: 300px;
+            border-top:0px;
+        }
+        .tab div.current {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="tab">
+        <ul>
+            <li v-on:click="change(index)" :class="currentIndex==index?'active':''" :key='item.id' v-for="(item,index) in list">{{ item.title }}</li>
+        </ul>
+        <div :class="currentIndex==index?'current':''" :key="item.id" v-for="(item,index) in list">
+            <img :src="item.path" alt="">
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                currentIndex:0,
+                list:[{
+                    id:1,
+                    title:"lb1.jpg",
+                    path:"images/lb1.jpg"
+                },{
+                    id:2,
+                    title:"lb2.jpg",
+                    path:"images/lb2.jpg"
+                },{
+                    id:3,
+                    title:"lb3.jpg",
+                    path:"images/lb3.jpg"
+                }]
+            },
+            methods:{
+                change:function(index){
+                    this.currentIndex = index;
+                }
+            }
+        })
+    </script>
+</div>
+</body>
+</html>
