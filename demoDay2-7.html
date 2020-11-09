@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>用户名</span>
+            <span>
+                <input type="text" v-model.lazy="uname">
+            </span>
+            <span>{{ tip }}</span><br>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                uname : '',
+                tip:''
+            },
+            methods:{
+                chickName:function (uname) {
+                    var that = this;
+                    setTimeout(function () {
+                            if(uname == 'admin') {
+                                that.tip = '该用户名已经被占用'
+                            }else{
+                                console.log(uname,'!!!!!')
+                                that.tip='该用户名可以使用'
+                            }
+                    },2000)
+                },
+            },
+            watch:{
+                uname:function(val){
+                    this.chickName(val)
+                    this.tip='正在验证..'
+
+                }
+            }
+        })
+    </script>
+
+
+</body>
+</html>

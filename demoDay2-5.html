@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{ msg }}</div>
+        <div>{{ msg.split('').reverse().join('') }}</div>
+        <div>{{ reverseString }}</div>
+        <div>{{ reverseString1() }}</div>
+        <div>{{ reverseString1() }}</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'helloworld'
+            },
+            methods:{
+                reverseString1:function () {
+                    console.log('a');
+                    return this.msg.split('').reverse().join('');
+                }
+            },
+            computed:{
+                reverseString:function(){
+                    console.log('b');
+                    return this.msg.split('').reverse().join('');
+                }
+            },
+            directives:{
+
+            },
+
+        })
+    </script>
+</body>
+</html>

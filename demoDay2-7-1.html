@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>用户名
+                <input type="text" v-model.lazy="userName">
+            </span>
+            <span>{{ placeHolder }}</span>
+        </div>
+    </div>
+<!--    <script src="js/vue.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data: {
+                userName :'',
+                placeHolder:'',
+            },
+            methods:{
+                checkUserName:function (userName) {
+                    var that = this;
+                    setTimeout(function () {
+                        if(userName =='admin' || userName == 'ceshi'){
+                            that.placeHolder = '该用户名'+userName+"已经被占用"
+                        }else{
+                            that.placeHolder = '该用户名可以正常使用 '
+                        }
+                    },2000)
+                }
+            },
+            watch:{
+                userName:function (val) {
+                    this.checkUserName(val);
+                    this.placeHolder = '正在进行验证.....'
+
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>

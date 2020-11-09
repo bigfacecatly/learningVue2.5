@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>名：</span>
+            <span>
+                <input type="text" v-model="firstName">
+            </span>
+        </div>
+        <div>
+            <span>姓：</span>
+            <span>
+                <input type="text" v-model="lastName">
+            </span>
+        </div>
+        <div>{{ fullName }}</div>
+        <div>{{ fullNameDemo }}</div>
+        <div>{{ fullNameDemoOne() }} 我是方法</div>
+        <div v-text="fullNameOne"></div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                firstName:'Jim',
+                lastName:'Green',
+                fullName:'Jim Green',
+                fullNameOne:'',
+            },
+            methods:{
+                fullNameDemoOne:function () {
+                    return this.fullNameOne = this.firstName + ' ' + this.lastName+ 'methods'
+                }
+            },
+            computed:{
+                fullNameDemo:function () {
+                    return this.firstName + ' ' + this.lastName + '我是计算属性'
+                }
+            },
+            watch:{
+                firstName: function (val) {
+                    this.fullName = val + " " + this.lastName
+                },
+                lastName: function (val) {
+                    this.fullName = this.firstName + ' ' + val
+                }
+            }
+
+        })
+    </script>
+
+
+</body>
+</html>
