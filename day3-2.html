@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <hello-world></hello-world>
+        <hello-bill></hello-bill>
+        <hello-tom></hello-tom>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var HelloWorld={
+            data:function () {
+                return {
+                    msg:'hello world'
+                }
+            },
+            template:'<div>{{ msg }}</div>'
+        };
+        var HelloBill={
+            data:function () {
+                return {
+                    msg:'hello Bill'
+                }
+            },
+            template:'<div>{{ msg }}</div>'
+        }
+        var HelloTom={
+            data:function () {
+                return {
+                    msg:'hello Tom'
+                }
+            },
+            template:'<div>{{ msg }}</div>'
+        }
+        var vm = new Vue({
+            el:'#app',
+            data:{},
+            components:{
+                'hello-world':HelloWorld,
+                'hello-bill':HelloBill,
+                'hello-tom':HelloTom,
+            }
+        })
+    </script>
+</body>
+</html>

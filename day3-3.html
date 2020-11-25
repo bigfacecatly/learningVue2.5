@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--        1       -->
+        <input type="text" v-model="pmsg">
+        <div-ele title="页面父组件数据"></div-ele>
+        <!--        2       -->
+        <div-ele :title="ptitle" :abc="ee"></div-ele>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('div-ele',{
+            data:function () {
+                return {
+                    msg:'我是子组件数据'
+                }
+            },
+            template:'<div>{{ msg + "-----" + title + "======"+abc}}</div>',
+            props:['title','abc']
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                pmsg:'我是父组件数据',
+                ptitle:'我是父组件动态数据',
+                ee:'我是ee'
+            },
+        })
+    </script>
+</body>
+</html>

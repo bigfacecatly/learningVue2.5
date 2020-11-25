@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--第一种-->
+        <demo-demo>
+            <p slot="header">我是头部</p>
+            <p slot="header">我是头部</p>
+            <p>中心内容</p>
+            <p>中心内容</p>
+            <p slot="footer">底部元素</p>
+            <p slot="footer">底部元素</p>
+        </demo-demo>
+        <!--第二种-->
+        <demo-demo>
+            <template slot="header">
+                <p>我是头部</p>
+                <p>我是头部2</p>
+            </template>
+            <p>123</p>
+            <p>12332</p>
+            <template slot="footer">
+                <p>我是底部元素</p>
+                <p>我是底部元素22</p>
+            </template>
+        </demo-demo>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('demoDemo',{
+            data:function(){
+                return {
+                    msg:'11'
+                }
+            },
+            template:`
+                    <div>
+                        <header>
+                            <slot name="header"></slot>
+                        </header>
+                        <main>
+                            <slot></slot>
+                        </main>
+                        <footer>
+                            <slot name="footer"></slot>
+                        </footer>
+                    </div>
+            `
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+
+            }
+        })
+
+    </script>
+</body>
+</html>

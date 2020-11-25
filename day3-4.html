@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <ment-item :ppstr="pstr" :ppnum="pnum" :ppboolean="pboolean" :pparr="parr" :ppobj="pobj"></ment-item>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('ment-item',{
+            props:['ppstr','ppnum','ppboolean','pparr','ppobj'],
+            template:`
+                <div>
+                    <div>{{ typeof ppstr }} {{ ppstr }}</div>
+                    <div>{{ typeof ppnum }} {{ ppnum }}</div>
+                    <div>{{ typeof ppboolean }} {{ ppboolean }}</div>
+                    <ul>
+                        <li :key='index' v-for="(item,index) in pparr">{{ item }}</li>
+                    </ul>
+                    <div>
+                        <span>{{ ppobj.name }}</span>
+                        <span>{{ ppobj.age }}</span>
+                    </div>
+                </div>
+            `
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                'pstr':'hello',
+                'pnum':12,
+                'pboolean':true,
+                'parr':['a','b','c','d','e','f'],
+                'pobj':{
+                    'name':'lisi',
+                    'age':15,
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

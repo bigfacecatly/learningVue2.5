@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function queryData(url) {
+            var p = new Promise((resolve,reject)=>{
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if(xhr.readyState != 4) return;
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        resolve(xhr.responseText)
+                    }else{
+                        reject('系统错误',xhr.responseText)
+                    }
+                }
+                xhr.open('get',url)
+                xhr.send(null)
+            });
+            return p;
+        }
+        var p1 = queryData('http://127.0.0.1:5000/li1')
+        var p2 = queryData('http://127.0.0.1:5000/li2')
+        var p3 = queryData('http://127.0.0.1:5000/li3')
+        Promise.all([p1,p2,p3]).then(function (result) {
+            console.log(result)
+        })
+
+        Promise.race([p1,p2,p3]).then(function (result) {
+            console.log(result)
+        })
+    </script>
+
+</body>
+</html>

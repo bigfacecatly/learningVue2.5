@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{ msg }}</div>
+        <div><button @click="handle">销毁事件</button></div>
+        <test1></test1>
+        <test2></test2>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var hub = new Vue();
+
+
+        Vue.component('test1',{
+            data:function () {
+                return {
+                    num1:0,
+                    msg1:'red1',
+                }
+            },
+            template:`
+                    <div>
+                        <div>test1-num:{{num1}},color:{{ msg1 }}</div>
+                        <button @click="handle1">更改2</button>
+                    </div>
+            `,
+            methods:{
+                handle1:function () {
+                    hub.$emit('test2-event',1,'blue')
+                }
+            },
+            mounted:function(){
+                hub.$on('test1-event',(val,val1)=>{
+                    this.num1 += val;
+                    this.msg1 = val1
+                })
+            }
+        });
+        Vue.component('test2',{
+            data:function () {
+                return {
+                    num2:0,
+                    msg2:'red2'
+                }
+            },
+            template: `
+                <div>
+                    <div>test2-num{{ num2 }},color：{{ msg2 }}</div>
+                    <div><button @click="handle2">更改1</button></div>
+
+                </div>
+            `,
+            methods:{
+                handle2:function () {
+                    hub.$emit('test1-event',2,'yellow')
+                }
+            },
+            mounted:function(){
+                hub.$on('test2-event',(val,val2)=>{
+                    this.num2 += val;
+                    this.msg2 = val2;
+                })
+            }
+
+        });
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'父组件内容',
+            },
+            methods:{
+                handle:function () {
+                    hub.$off('test1-event');
+                    hub.$off('test2-event');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

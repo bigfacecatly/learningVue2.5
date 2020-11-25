@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <helloone></helloone>
+        <hellotwo></hellotwo>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var HelloOne = {
+            data:function () {
+                return {
+                    msg:'hello 1'
+                }
+            },
+            template:'<div>{{ msg }}</div>'
+        };
+        var HelloTwo = {
+            data:function () {
+                return {
+                    msg:'hello 2'
+                }
+            },
+            template:'<div>{{ msg }}</div>'
+        }
+        var vm = new Vue({
+            el:'#app',
+            data:{},
+            components:{
+                'helloone':HelloOne,
+                'hellotwo':HelloTwo
+            }
+        })
+    </script>
+</body>
+</html>

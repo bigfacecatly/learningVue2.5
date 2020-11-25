@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="sum">
+        <div>前后端交互</div>
+        <button id="btn" >点击获取</button>
+        <div id="data"></div>
+    </div>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script>　
+            document.getElementById('btn').onclick =  function () {
+                console.log(111);
+                udata = {"a": 123,'b':456};
+                $.ajax({
+                    url:'http://127.0.0.1:5000/lisi',
+                    type:'POST',
+                    data:udata,
+                    success:function (data) {
+                        // document.getElementById('data').innerText = data;
+                        var div = document.createElement('div');
+                        div.innerText=data;
+                        div.style.backgroundColor = 'orange';
+                        document.getElementById('sum').appendChild(div);
+                        console.log(div);
+                    },
+                    error:function (data) {
+                        console.log('fail',data)
+
+                    }
+            });
+
+        }
+    </script>
+
+</body>
+</html>

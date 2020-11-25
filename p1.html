@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <ul>
+                <li :key="index" v-for="(item,index) in list1">{{ item }}</li>
+            </ul>
+        </div>
+        <div>
+            <div>{{ info.name }}</div>
+            <div>{{ info.age }}</div>
+            <div>{{ info.gender }}</div>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                list1:['apple','orange','banana'],
+                info:{
+                    name:'lisi',
+                    age:14,
+                }
+            }
+        });
+        Vue.set(vm.list1,0,'abc');
+        vm.$set(vm.list1,vm.list1.length-1,'bbc');
+        vm.$set(vm.info,'gender','female')
+    </script>
+</body>
+</html>

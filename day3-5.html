@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div :style="{ fontSize:fontSize+'px'}">{{ title }}</div>
+        <demo-demo :ptitle="title" @enlarge-text="handle($event)"></demo-demo>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('demoDemo',{
+            props : ['ptitle'],
+            template:`
+                <div>
+                    <div>{{ ptitle }}</div>
+                    <button @click="$emit('enlarge-text',5)">点击扩大组件字体</button>
+                    <button @click="$emit('enlarge-text',10)">点击扩大组件字体</button>
+                </div>
+            `
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                title:'我是父组件内容',
+                fontSize:10,
+            },
+            methods:{
+                handle:function (val) {
+                    console.log(val)
+                    this.fontSize += val;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div :style="{display:display}">{{ msg }}</div>
+        <demo-text :ptext="msg" @change-display="handle" :pdisplay="display"></demo-text>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('demoText',{
+            props : ['ptext','pdisplay'],
+            template:
+            `
+             <div>
+                 <div :style="{display:pdisplay}">{{ ptext }}</div>
+                 <button @click="$emit('change-display')">点击隐藏或显示</button>
+             </div>
+            `
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'我是父文字',
+                display:'block',
+            },
+            methods:{
+                handle:function () {
+                    if(this.display == 'block'){
+                        this.display = 'none';
+                    }else{
+                        this.display ='block';
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

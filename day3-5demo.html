@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div style="background-color: skyblue">111</div>
+        <div :style="{backgroundColor:backgroundcolor}">{{ msg }}</div>
+        <div :style="{backgroundColor:backgroundcolor}">{{ msg }}</div>
+        <demo-demo :msg-demo="msg" @change-backgroundcolor="handle"></demo-demo>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('demoDemo',{
+            props:['msgDemo'],
+            template:`
+                <div>
+                    <div>{{ msgDemo }}，我是子组件的div</div>
+                    <button @click='$emit("change-backgroundcolor")'>点击改变父组件背景颜色</button>
+                </div>
+            `
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'我是父组件的内容',
+                backgroundcolor:'yellow'
+            },
+            methods:{
+                handle:function () {
+                    this.backgroundcolor = 'skyblue';
+                    console.log(this.backgroundcolor)
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="js/axios.js"></script>
+<script>
+    // axios.get('http://127.0.0.1:8080/adata1?id=12333').then(ret=>{
+    //     document.write(ret.data)
+    // })
+    //
+    // axios.get('http://127.0.0.1:8080/adata/lisi').then(ret => {
+    //     document.writeln(ret.data)
+    // })
+
+    // axios.get('http://127.0.0.1:8080/adata',{
+    //     params:{
+    //         id:'abc'
+    //     }
+    // }).then(ret => {
+    //     document.write(ret.data)
+    // })
+
+    // axios.delete('http://127.0.0.1:8080/delete1?name=lisi').then(ret => {
+    //     document.writeln(ret.data)
+    // })
+
+    // axios.delete('http://127.0.0.1:8080/delete2/lisi').then(ret => {
+    //     document.write(ret.data)
+    // })
+
+    // axios.delete('http://127.0.0.1:8080/delete3',{
+    //     params:{
+    //         name:'zhaozhaozhao'
+    //     }
+    // }).then(ret => {
+    //     document.write(ret.data)
+    // })
+
+    // axios.post('http://127.0.0.1:8080/post1',{
+    //     name:'lisi',
+    //     age:13
+    // }).then(ret => {
+    //     document.write(ret.data)
+    // })
+
+    // const params = new URLSearchParams();
+    // params.append('name','lili');
+    // params.append('age',17);
+    // axios.post('http://127.0.0.1:8080/post2',params).then(ret => {
+    //     document.writeln(ret.data)
+    // })
+
+    // axios.put('http://127.0.0.1:8080/put1',{
+    //         name:'li111',
+    //         age:100,
+    //
+    // }).then(ret=>{
+    //     document.write(ret.data)
+    // })
+
+    // axios.get('http://127.0.0.1:8080/get-json').then(
+    //     ret =>{
+    //         console.log(ret.data)
+    //         document.write(ret.data.name)
+    //     }
+    // )
+
+    // //配置请求的基准URL地址
+    // axios.defaults.baseURL = 'http://127.0.0.1:8080/'
+    // axios.get('get-json').then(ret =>{
+    //     document.writeln(ret.data.name)
+    //     document.writeln(ret.data.age)
+    // })
+
+
+    // //配置请求头信息
+    // axios.defaults.headers['mytoken'] = '1'
+    // axios.get('http://127.0.0.1:8080/get-json').then(
+    //     ret =>{
+    //         console.log(ret.data)
+    //         document.write(ret.data.name)
+    //     }
+    // )
+
+    axios.interceptors.request.use(config=>{
+        console.log(config.url);
+        config.headers.mytoken='abc'
+        return config;
+    },err=>{
+        console.log(err)
+    })
+    axios.get('http://127.0.0.1:8080/adata1?id=12333').then(ret=>{
+        document.write(ret.data)
+    })
+
+
+
+</script>
+</body>
+</html>

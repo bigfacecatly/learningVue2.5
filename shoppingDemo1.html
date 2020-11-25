@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <list-things></list-things>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var header = {
+            props : ['uname'],
+            template:`
+                <div>{{ uname }}的商品列表</div>
+            `
+        };
+        var body = {
+            props : ['plist'],
+            template:`
+                <div>
+                   <div :key="item.id" v-for="item in plist">
+                       <span>{{ item.name }}</span>
+                       <span><a href="" @click.prevent="sub(item.id)">-</a></span>
+                       <span><input type="text" @blur="changeNum(item.id,$event)" :value="item.num"></span>
+                       <span><a href="" @click.prevent="add(item.id)">+</a></span>
+                       &nbsp&nbsp&nbsp<span @click="del(item.id)">X</span>
+                   </div>
+                </div>
+            `,
+            methods:{
+
+                changeNum:function (id,event) {
+                    this.$emit('change-num',{
+                        id:id,
+                        type:'change',
+                        num:event.target.value,
+                    })
+
+                },
+                sub:function(id){
+                    this.$emit('change-num',{
+                        id:id,
+                        type:'sub'
+                    })
+                },
+                add:function(id){
+                    this.$emit('change-num',{
+                        id:id,
+                        type:'add'
+                    })
+                },
+                del:function (id) {
+                    //把ID传递给父组件
+                    this.$emit('cart-del', id);
+                }
+
+            }
+        };
+        var footer = {
+            props : ['flist'],
+            template:`
+                <div>
+                    <span>总价：{{ total }}</span>
+                    <button>结算</button>
+                </div>
+            `,
+            computed:{
+                total:function () {
+                    var t = 0;
+                    this.flist.forEach(item =>{
+                        t += item.num*item.price;
+                    });
+                    return t;
+                }
+            }
+        };
+
+        Vue.component('listThings',{
+            data:function(){
+                return {
+                    uname:'李四',
+                    list:[
+                        {
+                            id:1,
+                            name:'风筝',
+                            num:1,
+                            price:1000,
+                        },
+                        {
+                            id:2,
+                            name:'小鸟',
+                            num:1,
+                            price:1000,
+                        },
+                        {
+                            id:3,
+                            name:'飞机',
+                            num:1,
+                            price:1000,
+                        },
+                    ]
+                }
+            },
+            template:`
+                <div>
+                    <theader :uname="uname"></theader>
+                    <atbody :plist="list" @change-num="atChangeNum($event)" @cart-del="delCart($event)"></atbody>
+                    <tfooter :flist="list"></tfooter>
+                </div>
+            `,
+            components:{
+                'theader':header,
+                'atbody':body,
+                'tfooter':footer,
+            },
+            methods:{
+                atChangeNum:function(val){
+                    // console.log(val)
+                    // 分为三种情况：输入域变更，加号变更，减号变更
+                    if(val.type=='change'){
+                        //根据子组件传递过来的数据，更新list中对应的数据
+                        this.list.some(item => {
+                            if(item.id == val.id){
+                                item.num = val.num;
+                                // 终止遍历
+                                return true;
+                            }
+                        })
+                    }else if(val.type=='sub'){
+                        // 减1操作
+                        this.list.some(item => {
+                            if(item.id == val.id){
+                                item.num -= 1;
+                                return true;
+                            }
+                        })
+                    }else if(val.type=='add'){
+                        // 加1操作
+                        this.list.some(item => {
+                            if(item.id == val.id){
+                                item.num += 1;
+                                return true;
+                            }
+                        })
+                    }
+
+                },
+                delCart:function (id) {
+                    //根据ID删除list对应的数据
+                    //1、找到ID所对应的索引
+                    var index = this.list.findIndex(item => {
+                        return item.id == id;
+                    });
+
+                    //2、根据索引删除对应数据
+                    this.list.splice(index,1);
+                }
+            }
+
+        });
+        var vm = new Vue({
+            el:'#app',
+            data:{
+
+            }
+
+        })
+
+    </script>
+</body>
+</html>

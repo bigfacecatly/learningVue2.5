@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .grid {
+            margin:auto;
+            width:500px;
+            text-align: center;
+        }
+
+        .grid table {
+            width:100%;
+            border-collapse: collapse;
+        }
+
+        .grid th,td{
+            padding: 10;
+            border:1px dashed orange;
+            height: 35px;
+            line-height: 35px;
+
+        }
+
+        .book{
+            padding: 10;
+            border:1px dashed orange;
+            height: 35px;
+            line-height: 35px;
+            background-color: orange;
+        }
+        .grid th{
+            background-color: orange;
+        }
+
+        .grid .total {
+            height: 30px;
+            line-height: 30px;
+            background-color: orange;
+            border-top: 1px dashed skyblue;
+            border-bottom: 1px dashed skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="grid">
+            <div>
+                <h1>图书管理</h1>
+                <div class="book">
+                    <div>
+                        <label for="id">编号</label>
+                        <input type="text" id="id" v-model="id" disabled="false">
+                        <label for="name">名称</label>
+                        <input type="text" id="name" v-model="name" v-focus>
+                        <button @click="handle" :disabled="summitFlag">提交</button>
+                    </div>
+                </div>
+            </div>
+            <div class="total">
+                <span>图书管理数量</span>
+                <span>{{ total }}</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr :key='item.id' v-for=" item in books">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>
+                            <a href="#" @click.prevent="toEdit(item.id)">修改</a>
+                            <span>|</span>
+                            <a href="#" @click.prevent="deleteBook(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <script>
+        axios.defaults.baseURL = 'http://127.0.0.1:8080/';
+        axios.interceptors.response.use(function (res) {
+            return res.data
+        },function (error) {
+            console.log(error)
+        })
+        Vue.directive('focus',{
+            inserted:function(el){
+                el.focus();
+            }
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                summitFlag:false,
+                flag:false,
+                id : '',
+                name :'',
+                books:[]
+            },
+            methods:{
+                handle:async function () {
+                    if(this.flag){
+                        // 修改图书信息
+                        var ret = await axios.put('books/'+this.id,{
+                            name:this.name
+                        });
+                        console.log(ret)
+                        if(ret.status == 200){
+                            //重新加载数据
+                            this.queryData()
+                        }
+                        this.flag = false;
+                    }else{
+                        // 添加图书
+                        var ret = await axios.post('books',{
+                            name:this.name
+                        })
+                        if(ret.status == 200){
+                            this.queryData()
+                        }
+                    }
+                    // 清空表单，解锁编号框
+                    this.flag = false;
+                    this.id = '';
+                    this.name = '';
+                },
+
+                toEdit:async function (id) {
+                    //禁用ID flag状态位 用于区分编辑和添加操作
+                    this.flag = true;
+                    //根据ID查询出对应的图书信息
+                    var ret = await axios.get('books/'+id);
+                    this.id = ret.id;
+                    this.name = ret.name;
+
+                },
+                deleteBook:async function (id) {
+                    var ret = await axios.delete('books/' + id);
+                    console.log('LLL',ret)
+                    if(ret.status==200){
+                        //重新加载列表数据
+                        this.queryData();
+                    }
+                },
+                queryData: async function () {
+                    //调用后台接口获取图书列表数据
+                    // var ret = await axios.get('books');
+                    // this.books = ret.data;
+                    //加了响应式拦截器后优化为  ret.data在响应拦截器里做了
+                    this.books = await axios.get('books')
+                }
+            },
+            computed:{
+                total:function () {
+                    return this.books.length;
+                }
+            },
+            watch:{
+                name:async function (val) {
+                    //验证图书是否存在
+                    var ret = await axios.get('/books/book/'+this.name);
+                    // console.log(ret,111111111)
+                    if(ret.status =="1"){
+                        this.summitFlag = true;
+                    }else{
+                        this.summitFlag = false;
+                    }
+                }
+            },
+            mounted:function () {
+                // //创建对象的过程后 挂载时创建数据
+                //第一种
+                // axios.get('books').then(data=> {
+                //     console.log(data.data);
+                //     this.books = data.data;
+                // })
+                //第二种
+                this.queryData();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <One :title-hello="pmsg"></One>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('Two',{
+            props:['testTitle'],
+            template:'<div>{{ testTitle }}</div>'
+        })
+        Vue.component('One',{
+            data:function () {
+                return {
+                    msg:'123'
+                }
+            },
+            template:'<div>{{ msg +"=========" + titleHello }}<Two testTitle="helloworld"></Two></div>',
+            props:['titleHello']
+        })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                pmsg:'我是父组件'
+            },
+
+        })
+    </script>
+</body>
+</html>

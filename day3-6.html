@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{ msg }}</div>
+        <div>
+            <button @click="handle">销毁事件</button>
+        </div>
+        <test-tom></test-tom>
+        <test-jerry></test-jerry>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 创建事件中心
+        var hub  = new Vue();
+        Vue.component('testTom',{
+            data:function () {
+                return {
+                    num:0
+                }
+            },
+            template:`
+                <div>
+                    <div>TOM:{{ num }}</div>
+                    <button @click="handle">点击更改jerry数字</button>
+                </div>
+            `,
+            methods:{
+                handle:function () {
+                    // 触发兄弟组件事件
+                    hub.$emit('jerry-event',1);
+                }
+            },
+            mounted:function(){
+                // 监听事件
+                hub.$on('tom-event',(val)=>{
+                    this.num += val;
+                })
+            }
+        });
+        Vue.component('testJerry',{
+            data:function () {
+                return {
+                    num:0
+                }
+            },
+            template:`
+                <div>
+                    <div>Jerry:{{ num }}</div>
+                    <button @click="handle">点击更改Tom数字</button>
+                </div>
+            `,
+            methods:{
+                handle:function () {
+                    // 触发兄弟组件事件
+                    hub.$emit('tom-event',2)
+                }
+            },
+            mounted:function(){
+                // 监听事件
+                hub.$on('jerry-event',(val)=>{
+                    this.num += val;
+                })
+            }
+        });
+
+
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'父组件内容'
+            },
+            methods:{
+                handle:function () {
+                    hub.$off('tom-event');
+                    hub.$off('jerry-event');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

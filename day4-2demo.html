@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function queryData(url) {
+            var p = new Promise((resolve,reject)=>{
+                var xhr = new  XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    // 从0-4变化，仅当为4的时候执行程序
+                    if(xhr.readyState != 4 ) return ;
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        resolve(xhr.responseText)
+                    }else{
+                        reject('服务器错误')
+                    }
+                };
+                // 初始化请求
+                xhr.open('get',url);
+                // 发送请求
+                xhr.send(null);
+            });
+            return p;
+        }
+        // 多次发送ajax并保证顺序
+        queryData('http://127.0.0.1:5000/li1')
+            .then(function (data) {
+                console.log(data)
+                return queryData('http://127.0.0.1:5000/li2')
+            })
+            .then(function (data) {
+                console.log(data)
+                return queryData('http://127.0.0.1:5000/li3')
+            })
+            .then(function (data) {
+                console.log(data)
+            })
+    </script>
+
+</body>
+</html>
